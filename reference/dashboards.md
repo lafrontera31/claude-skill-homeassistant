@@ -4,7 +4,9 @@ Read this when doing Lovelace/UI work. Core deploy/verify rules are in `../SKILL
 
 ## Fundamentals
 - Dashboards are JSON in `.storage/lovelace.*` (e.g. `.storage/lovelace.control_center`).
-- Editing a dashboard needs only a **browser hard-refresh** (Ctrl/Cmd+Shift+R) — no restart.
+- **UI edits** (via the dashboard editor) show on a **browser hard-refresh** (Ctrl/Cmd+Shift+R).
+  **Direct file edits** (scp/git) may not appear until a `ha core restart` — HA caches the
+  lovelace store in memory; if a refresh doesn't show your change, restart.
 - Adding a **new** dashboard requires registering it in `.storage/lovelace_dashboards` and a
   **restart** for it to appear in the sidebar.
 - Validate JSON before deploying: `python3 -m json.tool .storage/lovelace.x > /dev/null`.
@@ -15,6 +17,8 @@ Read this when doing Lovelace/UI work. Core deploy/verify rules are in `../SKILL
 scp .storage/lovelace.control_center root@homeassistant.local:/config/.storage/
 # hard-refresh browser. Repeat. Commit to git only once stable.
 ```
+If a hard-refresh doesn't reflect the change, the instance is caching the store —
+`ha core restart` to pick up direct file edits.
 
 ## View types
 - **sections** (modern default): responsive drag-drop grid, supports badges and `heading`
