@@ -1,0 +1,35 @@
+home-assistant-manager — Release Notes
+Versioning: Semantic Versioning (MAJOR.MINOR.PATCH) — https://semver.org
+
+## v1.0.0 — 2026-06-21
+First formally versioned release. Modernizes and slims the skill for efficient,
+precise Home Assistant management.
+
+Changed
+- Rewrote SKILL.md: 627 -> 106 lines. Each core flow (git deploy pipeline,
+  reload-vs-restart, verification loop) is now stated exactly once.
+- Recommend native modern HA UI by default: sections view + feature-rich tile cards;
+  Mushroom reserved for when its specific look is wanted.
+
+Added
+- reference/dashboards.md — full Lovelace reference (view types, card catalog, template
+  cards, tablet layout, pitfalls, debugging), loaded on demand to keep SKILL.md lean
+  (progressive disclosure).
+- MCP access guidance: prefer an MCP server (official mcp_server, HA core >=2025.2, or
+  community ha-mcp) over hass-cli when available, removing the env-must-be-preloaded friction.
+- Precision notes that cut round-trips: hass-cli env-not-loaded gotcha, when it's safe to
+  skip the slow `ha core check`, and the `| int(0)` default rule for template type-safety.
+- Browser validation flow (reference/dashboards.md): validate dashboard changes visually via
+  the native Claude-in-Chrome extension — shadow-DOM means drive by screenshot + coordinate
+  click, per-site permission grant, use the authenticated URL, never enter credentials.
+- Clarified that direct file edits to .storage/lovelace.* may need a `ha core restart` (HA
+  caches the lovelace store), vs UI edits which show on refresh.
+- .gitignore (ignore .DS_Store).
+
+Removed
+- ~4x duplication of the deploy/verify/command sections.
+- "Best Practices Summary" and "Workflow Decision Tree" (restated existing content).
+
+Notes
+- No behavioral change to skill activation: same skill name and trigger surface; the
+  description was tightened for better matching.
