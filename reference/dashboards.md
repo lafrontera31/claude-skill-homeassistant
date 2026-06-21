@@ -93,3 +93,22 @@ raise `TypeError`; the default guards `None` at startup.
 3. Dev Tools → Template to test Jinja before committing.
 4. `hass-cli state get <entity>` to confirm the entity id exists.
 5. Hard-refresh / incognito to rule out cache.
+
+## Visual validation in the browser (Claude-in-Chrome)
+Cards render client-side, so logs and entity state can't confirm a dashboard change actually
+*looks* right — a broken card, a wrong color, or a mis-sorted popup only shows in the UI.
+After deploying (and the restart the storage cache needs), validate visually:
+
+1. Drive the user's real, logged-in browser via the **Claude-in-Chrome** extension (native;
+   no Playwright/MCP). Confirm the connection (`tabs_context_mcp`), open a fresh tab, navigate
+   to the dashboard.
+2. **Use the URL where the session is authenticated** (often an external/reverse-proxy domain).
+   A fresh tab on the LAN hostname may show a login page — **never enter credentials**; ask the
+   user to log in or navigate.
+3. The extension needs a **one-time per-site permission grant** for the HA domain (separate
+   from navigating to it) — the user toggles "allow Claude to act on this site".
+4. **HA cards live in shadow DOM**, so the accessibility tree / `find` can't see them. Drive
+   **visually**: screenshot, then click by coordinate. Don't waste turns on `find` for cards.
+5. Validate popups/modals (e.g. browser_mod) by clicking the trigger and screenshotting; press
+   `Escape` to close. Scroll + screenshot to reach cards below the fold.
+6. Capture a screenshot as proof, then report what rendered vs. expected.

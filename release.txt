@@ -19,6 +19,11 @@ Added
   community ha-mcp) over hass-cli when available, removing the env-must-be-preloaded friction.
 - Precision notes that cut round-trips: hass-cli env-not-loaded gotcha, when it's safe to
   skip the slow `ha core check`, and the `| int(0)` default rule for template type-safety.
+- Browser validation flow (reference/dashboards.md): validate dashboard changes visually via
+  the native Claude-in-Chrome extension — shadow-DOM means drive by screenshot + coordinate
+  click, per-site permission grant, use the authenticated URL, never enter credentials.
+- Clarified that direct file edits to .storage/lovelace.* may need a `ha core restart` (HA
+  caches the lovelace store), vs UI edits which show on refresh.
 - .gitignore (ignore .DS_Store).
 
 Removed

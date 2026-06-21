@@ -76,10 +76,13 @@ Prefer reload. Never restart without a passing `ha core check`.
 - Use context7 MCP for current HA docs before non-trivial or unfamiliar config.
 
 ## Dashboards
-Lovelace dashboards live in `.storage/lovelace.*` (JSON). They need a browser refresh, not
-a restart — except adding a *new* dashboard to `.storage/lovelace_dashboards` (restart).
-`scp` + hard-refresh is the fast loop; validate JSON first:
-`python3 -m json.tool .storage/lovelace.x > /dev/null`.
+Lovelace dashboards live in `.storage/lovelace.*` (JSON). UI edits show on a browser refresh;
+**direct file edits (scp/git) may not appear until a `ha core restart`** — HA caches the
+lovelace store in memory. Adding a *new* dashboard to `.storage/lovelace_dashboards` also needs
+a restart. `scp` + refresh is the fast loop; validate JSON first:
+`python3 -m json.tool .storage/lovelace.x > /dev/null`. After deploying, **validate the UI
+visually in the browser** (see the reference) — logs/state won't catch a broken card or a
+mis-sorted popup.
 
 **Full dashboard reference** (view types, card catalog, template cards, tablet layout,
 pitfalls, debugging) → read [`reference/dashboards.md`](reference/dashboards.md) when doing
