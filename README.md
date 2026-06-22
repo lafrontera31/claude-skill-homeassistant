@@ -6,7 +6,7 @@
 [![Home Assistant](https://img.shields.io/badge/Home%20Assistant-Compatible-41BDF5)](https://www.home-assistant.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-![Tablet Dashboard Example](dashboard.png)
+![Tablet Dashboard Example](skills/home-assistant-manager/dashboard.png)
 *Example tablet-optimized dashboard built using this skill - touch-friendly controls, color-coded status, and responsive grid layout*
 
 ## 🎬 See It In Action
@@ -73,27 +73,39 @@ This Claude Code skill transforms Claude into a **Home Assistant expert** that h
 
 ### Install the Skill
 
-#### Option 1: Clone into your Home Assistant config repository
+#### Option 1: Claude Code plugin marketplace (recommended)
+
+This repo is also a self-hosted plugin marketplace, so you can install it with two slash commands — no manual cloning required:
+
+```
+/plugin marketplace add komal-SkyNET/claude-skill-homeassistant
+/plugin install home-assistant-manager@claude-skill-homeassistant
+```
+
+Run these from anywhere — they install the plugin (and its skill) globally for Claude Code, so it's available whenever you open a Home Assistant config repo. Update later with `/plugin marketplace update claude-skill-homeassistant` followed by `/plugin update home-assistant-manager`.
+
+#### Option 2: Clone into your Home Assistant config repository
 
 ```bash
 cd /path/to/your/homeassistant/config
 mkdir -p .claude/skills
 cd .claude/skills
-git clone git@github.com:komal-SkyNET/claude-skill-homeassistant.git home-assistant-manager
+git clone git@github.com:komal-SkyNET/claude-skill-homeassistant.git home-assistant-manager-repo
+ln -s home-assistant-manager-repo/skills/home-assistant-manager home-assistant-manager
 ```
 
-#### Option 2: Download and extract
+#### Option 3: Download and extract
 
 ```bash
 cd /path/to/your/homeassistant/config
 mkdir -p .claude/skills/home-assistant-manager
 cd .claude/skills/home-assistant-manager
-curl -L https://github.com/komal-SkyNET/claude-skill-homeassistant/archive/main.tar.gz | tar xz --strip-components=1
+curl -L https://github.com/komal-SkyNET/claude-skill-homeassistant/archive/main.tar.gz | tar xz --strip-components=2 claude-skill-homeassistant-main/skills/home-assistant-manager
 ```
 
 ### Verify Installation
 
-The skill should appear when you start Claude Code in your Home Assistant repository. Claude will automatically load the skill and apply the expertise.
+After installing via the plugin marketplace, run `/plugin` to confirm `home-assistant-manager` is listed and enabled. With the manual options, the skill should appear when you start Claude Code in your Home Assistant repository. Either way, Claude will automatically load the skill and apply the expertise.
 
 ## 🎯 Usage Examples
 
@@ -245,7 +257,7 @@ If proposing workflow changes:
 
 1. **Fork the repository**
 2. **Create a feature branch**: `git checkout -b feature/your-contribution-name`
-3. **Make your changes** to `SKILL.md`
+3. **Make your changes** to `skills/home-assistant-manager/SKILL.md`
 4. **Test thoroughly** in your own HA environment
 5. **Update README.md** if adding new capabilities
 6. **Submit a Pull Request** with:
@@ -261,16 +273,24 @@ PRs are reviewed for:
 - ✅ **Clarity**: Is it well-documented and easy to understand?
 - ✅ **Tested**: Has it been verified in a real HA environment?
 
-## 📚 Skill Structure
+## 📚 Repository Structure
 
 ```
-home-assistant-manager/
-├── SKILL.md          # Main skill content with YAML frontmatter
-├── README.md         # This file
-└── LICENSE           # MIT License
+claude-skill-homeassistant/
+├── .claude-plugin/
+│   ├── plugin.json       # Plugin manifest
+│   └── marketplace.json  # Self-hosted marketplace listing this plugin
+├── skills/
+│   └── home-assistant-manager/
+│       ├── SKILL.md              # Main skill content with YAML frontmatter
+│       ├── dashboard.png
+│       └── reference/
+│           └── dashboards.md     # Lovelace deep-dive, loaded on demand
+├── README.md              # This file
+└── LICENSE                # MIT License
 ```
 
-The skill follows the [official Claude skills specification](https://github.com/anthropics/skills):
+This repo doubles as a Claude Code plugin and a self-hosted marketplace (see [Installation](#-installation)), and the skill itself follows the [official Claude skills specification](https://github.com/anthropics/skills):
 - `SKILL.md` contains YAML frontmatter with `name` and `description`
 - Content organized in logical sections
 - Includes examples, patterns, and workflows

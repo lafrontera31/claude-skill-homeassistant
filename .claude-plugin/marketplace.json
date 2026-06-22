@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "claude-skill-homeassistant",
+  "description": "Marketplace for the Home Assistant Manager Claude Code skill",
+  "owner": {
+    "name": "komal-SkyNET"
+  },
+  "plugins": [
+    {
+      "name": "home-assistant-manager",
+      "source": "./",
+      "description": "Expert-level Home Assistant configuration management: deploy workflows, SSH/hass-cli access, automation verification, and Lovelace dashboard development",
+      "category": "smart-home",
+      "homepage": "https://github.com/komal-SkyNET/claude-skill-homeassistant"
+    }
+  ]
+}

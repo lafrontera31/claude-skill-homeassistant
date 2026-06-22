@@ -1,0 +1,19 @@
+{
+  "name": "home-assistant-manager",
+  "version": "1.0.0",
+  "description": "Expert-level Home Assistant configuration management: deploy workflows, SSH/hass-cli access, automation verification, and Lovelace dashboard development",
+  "author": {
+    "name": "komal-SkyNET"
+  },
+  "homepage": "https://github.com/komal-SkyNET/claude-skill-homeassistant",
+  "repository": "https://github.com/komal-SkyNET/claude-skill-homeassistant",
+  "license": "MIT",
+  "keywords": [
+    "home-assistant",
+    "smart-home",
+    "lovelace",
+    "automation",
+    "yaml",
+    "iot"
+  ]
+}
