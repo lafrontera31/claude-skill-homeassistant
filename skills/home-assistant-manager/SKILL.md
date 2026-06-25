@@ -8,6 +8,26 @@ description: Manage Home Assistant configuration safely and fast — edit and de
 Operate a remote Home Assistant instance precisely: make a change, get it live, prove it
 worked. Optimize for the fewest safe round-trips.
 
+## Deployment Protocol — MANDATORY
+
+This skill is only invoked after the design has been validated by the user (via `home-assistant-best-practices`). Never deploy a change that has not been explicitly approved.
+
+**Before any deployment action:**
+Present the deployment plan to the user in this format:
+
+```
+📋 Plan de déploiement
+
+Objet : <nom de l'automatisation / helper / script / scène>
+Action HA : <appel MCP / service call / reload / restart>
+Domaine rechargé : <automation / script / scene / …>
+Vérification prévue : <trigger manuel / vérification d'état / lecture des logs>
+```
+
+**STOP.** Wait for explicit user approval ("ok", "vas-y", "déploie") before executing any action.
+
+Only after approval: execute the pipeline, verify the result, and report the outcome concisely.
+
 ## Assumptions
 - The repo you're editing **is** the HA `/config` dir, git-connected to the instance
   (typically `root@homeassistant.local`). Edits aren't live until pulled on the instance.
