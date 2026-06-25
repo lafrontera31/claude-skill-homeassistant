@@ -19,14 +19,41 @@ Present the deployment plan to the user in this format:
 📋 Plan de déploiement
 
 Objet : <nom de l'automatisation / helper / script / scène>
-Action HA : <appel MCP / service call / reload / restart>
-Domaine rechargé : <automation / script / scene / …>
+
+Fichiers à écrire :
+  - packages/<fichier>.yaml  →  [CRÉATION] ou [MODIFICATION]
+  - packages/<fichier>.md    →  [CRÉATION] ou [MISE À JOUR doc]
+
+Action HA : <écriture fichier via MCP + reload domaine / restart>
+Domaine rechargé : <homeassistant / automation / script / scene / …>
 Vérification prévue : <trigger manuel / vérification d'état / lecture des logs>
 ```
 
 **STOP.** Wait for explicit user approval ("ok", "vas-y", "déploie") before executing any action.
 
-Only after approval: execute the pipeline, verify the result, and report the outcome concisely.
+Only after approval:
+1. Write the package YAML file via MCP
+2. Write or update the matching `.md` documentation file
+3. Reload the appropriate domain
+4. Verify and report concisely.
+
+## Packages deployment rules
+
+All helpers, templates, scripts, scenes, and automations live in `packages/`. The deployment pipeline for packages:
+
+| What changed | Reload action |
+|---|---|
+| `input_*`, `counter`, `timer`, `schedule`, `group`, `template` | `homeassistant.reload_all` (or specific domain reload) |
+| `automation` block in a package | `automation.reload` |
+| `script` block in a package | `script.reload` |
+| `scene` block in a package | `scene.reload` |
+| New package file (first time) | `ha core restart` (HA must discover the new file) |
+
+**Documentation rule:** Every `packages/<name>.yaml` must have a `packages/<name>.md` file. The `.md` must document:
+- Purpose of the package
+- List of entities defined (entity_id + type + brief description)
+- External dependencies (entities from other packages or integrations this package references)
+- Last modified date and change summary
 
 ## Assumptions
 - The repo you're editing **is** the HA `/config` dir, git-connected to the instance
